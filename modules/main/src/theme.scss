@@ -1,0 +1,213 @@
+.btn {
+  white-space: nowrap;
+
+  wp-icon {
+    // vertical-align: text-bottom;
+    // vertical-align: text-bottom;
+    margin-right: 0.25em;
+    vertical-align: text-bottom;
+  }
+}
+
+.btn-primary {
+  --wp-btn-color: #fff;
+  --wp-icon-color: #fff;
+  --wp-btn-bg: #277449;
+  --wp-btn-border-color: #277449;
+  --wp-btn-hover-color: #fff;
+  --wp-btn-hover-bg: #269757;
+  --wp-btn-hover-border-color: #269757;
+  --wp-btn-focus-shadow-rgb: 49, 132, 253;
+  --wp-btn-active-color: #fff;
+  --wp-btn-active-bg: #2ab365;
+  --wp-btn-active-border-color: #2ab365;
+  --wp-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --wp-btn-disabled-color: #fff;
+  --wp-btn-disabled-bg: #277449;
+  --wp-btn-disabled-border-color: #277449;
+}
+
+.btn-outline-primary {
+  --wp-btn-color: #277449;
+  --wp-btn-border-color: #2ab365;
+  --wp-btn-hover-color: #277449;
+  --wp-btn-hover-bg: #fff;
+  --wp-btn-hover-border-color: #277449;
+  --wp-btn-focus-shadow-rgb: 13, 110, 253;
+  --wp-btn-active-color: #277449;
+  --wp-btn-active-bg: #fff;
+  --wp-btn-active-border-color: #277449;
+  --wp-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --wp-btn-disabled-color: #749b83;
+  --wp-btn-disabled-bg: transparent;
+  --wp-btn-disabled-border-color: #6c8c78;
+  --wp-gradient: none;
+}
+
+.btn-secondary {
+  --wp-icon-color: #fff;
+}
+
+.form-check-input:checked {
+  background-color: #277449;
+  border-color: #277449;
+}
+
+.pagination {
+  --wp-pagination-active-bg: #277449 !important;
+  --wp-pagination-active-border-color: #277449 !important;
+
+  .total {
+    color: #277449 !important;
+  }
+
+  .curr {
+    color: #5bd375 !important;
+  }
+
+  .jumper {
+    display: flex;
+    align-items: stretch;
+
+    .page-link {
+      padding: 0 5px;
+      vertical-align: middle;
+
+      input {
+        padding: 5px 0;
+        margin: 1px 2px;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+:host-context(wp-tree) {
+  .element {
+    padding: 0.3rem 0;
+
+    &.selected,
+    &:hover {
+      .expander-wrap {
+        --wp-icon-color: white;
+      }
+
+      color: white !important;
+    }
+
+    .form-check-input:checked[type="checkbox"] {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejwpn='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    }
+
+    .form-check-input[type="checkbox"] {
+      border-radius: 0.25em;
+    }
+
+    .form-check-input:checked {
+      background-color: #277449;
+      border-color: #277449;
+    }
+
+    .form-check-input {
+      width: 1em;
+      height: 1em;
+      margin-top: 0.25em;
+      vertical-align: top;
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      -webkit-print-color-adjust: exact;
+      color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
+  .label {
+    white-space: nowrap;
+  }
+}
+
+:hover::-webkit-scrollbar-thumb {
+  z-index: 0;
+  border-radius: 1rem;
+  background-color: var(--wp-scrollbar-hover-bg, #53a176);
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(185, 145, 145, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+}
+
+// input[type=checkbox] {
+//     margin-right: 5px;
+//     cursor: pwpnter;
+//     font-size: 14px;
+//     width: 15px;
+//     height: 12px;
+//     position: relative;
+// }
+
+// input[type=checkbox]:after {
+//     position: absolute;
+//     width: 10px;
+//     height: 15px;
+//     top: 0;
+//     content: " ";
+//     background-color: #ff0000;
+//     color: #fff;
+//     display: inline-block;
+//     visibility: visible;
+//     padding: 0px 3px;
+//     border-radius: 3px;
+// }
+
+// input[type=checkbox]:checked:after {
+//     content: "✓";
+//     font-size: 12px;
+// }
+
+// input[type=radio] {
+//     margin-right: 5px;
+//     cursor: pwpnter;
+//     font-size: 14px;
+//     width: 15px;
+//     height: 12px;
+//     position: relative;
+// }
+
+// input[type=radio]:after {
+//     position: absolute;
+//     width: 10px;
+//     height: 15px;
+//     top: 0;
+//     content: " ";
+//     background-color: #ff0000;
+//     color: #fff;
+//     display: inline-block;
+//     visibility: visible;
+//     padding: 0px 3px;
+//     border-radius: 50%;
+// }
+
+// input[type=radio]:checked:before {
+//     content: "✓";
+//     display: block;
+//     position: relative;
+//     top: -2px;
+//     left: 3px;
+//     width: 6px;
+//     height: 6px;
+//     color: #fff;
+//     font-weight: 400;
+//     z-index: 1;
+// }

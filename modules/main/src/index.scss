@@ -1,0 +1,73 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#main {
+  height: 100%;
+}
+
+wp-import {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --wp-loading-color: #277449;
+}
+
+:root {
+  --wp-primary: #277449;
+  --wp-secondary: #6c757d;
+  --wp-success: #198754;
+  --wp-info: #0dcaf0;
+  --wp-warning: #ffc107;
+  --wp-danger: #dc3545;
+  --wp-light: #f8f9fa;
+  --wp-dark: #212529;
+  --wp-primary-rgb: 13, 110, 253;
+  --wp-secondary-rgb: 108, 117, 125;
+  --wp-success-rgb: 25, 135, 84;
+  --wp-info-rgb: 13, 202, 240;
+  --wp-warning-rgb: 255, 193, 7;
+  --wp-danger-rgb: 220, 53, 69;
+  --wp-light-rgb: 248, 249, 250;
+  --wp-dark-rgb: 33, 37, 41;
+  --wp-white-rgb: 255, 255, 255;
+  --wp-black-rgb: 0, 0, 0;
+  --wp-body-color-rgb: 33, 37, 41;
+  --wp-body-bg-rgb: 255, 255, 255;
+  --wp-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --wp-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --wp-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0)
+  );
+  --wp-body-font-family: var(--wp-font-sans-serif);
+  --wp-body-font-size: 1rem;
+  --wp-body-font-weight: 400;
+  --wp-body-line-height: 1.5;
+  --wp-body-color: #212529;
+  --wp-body-bg: #fff;
+  --wp-border-width: 1px;
+  --wp-border-style: solid;
+  --wp-border-color: #dee2e6;
+  --wp-border-color-translucent: rgba(0, 0, 0, 0.175);
+  --wp-border-radius: 0.375rem;
+  --wp-border-radius-sm: 0.25rem;
+  --wp-border-radius-lg: 0.5rem;
+  --wp-border-radius-xl: 1rem;
+  --wp-border-radius-2xl: 2rem;
+  --wp-border-radius-pill: 50rem;
+  --wp-link-color: #277449;
+  --wp-link-hover-color: #25854e;
+  --wp-code-color: #d63384;
+  --wp-highlight-bg: #fff3cd;
+
+  --wp-tree-node-selected-bgcolor: #277449;
+  --wp-tree-node-hover-bgcolor: #53a176;
+  --wp-tree-node-hover-color: rgb(84, 82, 82);
+}

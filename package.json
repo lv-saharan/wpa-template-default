@@ -1,0 +1,50 @@
+{
+  "name": "{{projectName}}",
+  "version": "1.0.0",
+  "description": "{{projectDescription}}",
+  "author": "{{projectAuthor}}",
+  "type": "module",
+  "externals": {
+    "^wpa$": {
+      "dev": "/node_modules/wpa/dist/wpa.js",
+      "prod": "/es-lib/wpa/latest/wpa.js"
+    },
+    "^wpa-ui$": {
+      "dev": "/node_modules/wpa-ui/dist/wpa-ui.js",
+      "prod": "/es-lib/wpa-ui/latest/wpa-ui.js"
+    },
+    "^/es-lib": {
+      "dev": "/es-lib",
+      "prod": "/es-lib"
+    },
+    "^/modules": {
+      "dev": "/modules",
+      "prod": "/modules"
+    }
+  },
+  "localDev": {
+    "server": {
+      "port": 8901
+    },
+    "apis": [
+      {
+        "host": "local-dev",
+        "port": 8080,
+        "from": "/api/",
+        "to": "/"
+      }
+    ]
+  },
+  "scripts": {
+    "start": "node esbuild.js dev"
+  },
+  "dependencies": {
+    "esbuild": "^0.17.11",
+    "esbuild-sass-plugin": "^2.6.0",
+    "wpa": "^1.0.3",
+    "wpa-ui": "^1.0.3"
+  },
+  "devDependencies": {
+    "local-dev-server": "^1.0.17"
+  }
+}
