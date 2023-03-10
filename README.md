@@ -1,6 +1,7 @@
 # wpa-template-default
 
-default mutil modules template
+default micro frontend modules template
+默认微前端多模块模板
 
 # usage
 
