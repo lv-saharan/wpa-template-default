@@ -21,3 +21,5 @@ npm i
 npm start
 ```
 
+## screenshot
+![image](https://user-images.githubusercontent.com/93796780/224242567-25dcb4fc-61ce-4e0f-99b1-066b22b2bce6.png)
