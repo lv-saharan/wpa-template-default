@@ -165,12 +165,22 @@ if (mode == "dev") {
     });
   });
 
-  esbuild.build(options).then((result) => {
-    console.log(`build  ok!`);
-  });
+  await esbuild.build(options);
+
+  console.log(`build  ok!`);
 
   if (mode == "all") {
     fs.cpSync("index.html", path.join(target, "index.html"));
-    fs.cpSync("es-lib", path.join(target, "es-lib"), { recursive: true });
+    // fs.cpSync("es-lib", path.join(target, "es-lib"), { recursive: true });
+
+    for (let [key, rule] of Object.entries(pkg.externals ?? {})) {
+      if (typeof rule !== "string" && rule.dev !== rule.prod) {
+        const devDir = path.join(".", path.dirname(rule.dev));
+        const prodDir = path.join(target, path.dirname(rule.prod));
+        console.log(`begin copy from "${devDir}" to "${prodDir}"`);
+        fs.cpSync(devDir, prodDir, { recursive: true });
+        console.log(`end copy from "${devDir}" to "${prodDir}"`);
+      }
+    }
   }
 }

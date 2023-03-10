@@ -36,7 +36,9 @@
     ]
   },
   "scripts": {
-    "start": "node esbuild.js dev"
+    "start": "node esbuild.js dev",
+    "build": "node esbuild.js prod",
+    "build:all": "node esbuild.js all"
   },
   "dependencies": {
     "esbuild": "^0.17.11",
