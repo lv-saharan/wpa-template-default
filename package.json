@@ -41,12 +41,12 @@
     "build:all": "node esbuild.js all"
   },
   "dependencies": {
-    "esbuild": "^0.17.11",
-    "esbuild-sass-plugin": "^2.6.0",
     "wpa": "^1.0.3",
     "wpa-ui": "^1.0.3"
   },
   "devDependencies": {
-    "local-dev-server": "^1.0.17"
+    "local-dev-server": "^1.0.17",
+    "esbuild": "^0.17.11",
+    "esbuild-sass-plugin": "^2.6.0"
   }
 }
