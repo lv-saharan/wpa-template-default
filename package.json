@@ -41,8 +41,8 @@
     "build:all": "node esbuild.js all"
   },
   "dependencies": {
-    "wpa": "^1.0.3",
-    "wpa-ui": "^1.0.3"
+    "wpa": "^1.0.6",
+    "wpa-ui": "^1.0.5"
   },
   "devDependencies": {
     "local-dev-server": "^1.0.17",
