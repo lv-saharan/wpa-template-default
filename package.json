@@ -42,11 +42,11 @@
   },
   "dependencies": {
     "wpa": "^1.0.6",
-    "wpa-ui": "^1.0.5"
+    "wpa-ui": "^1.0.6"
   },
   "devDependencies": {
-    "local-dev-server": "^1.0.17",
-    "esbuild": "^0.17.11",
-    "esbuild-sass-plugin": "^2.6.0"
+    "esbuild": "^0.18.17",
+    "esbuild-sass-plugin": "^2.10.0",
+    "local-dev-server": "^1.0.17"
   }
 }
