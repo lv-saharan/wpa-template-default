@@ -4,6 +4,11 @@ import fs from "fs";
 import path from "path";
 import { sassPlugin } from "esbuild-sass-plugin";
 import { dev } from "local-dev-server";
+
+// process.on("exit", () => {
+//   console.log("exit");
+// });
+
 const entryRoots = ["./modules"];
 const target = "./dist";
 //把这些资源目录一同拷贝
@@ -52,25 +57,38 @@ entryRoots.forEach((dir) => {
   findEntryPoints(dir);
 });
 
-console.log("find entryPoints", entryPoints);
+console.log("EntryPoints", entryPoints);
 const externalRules = [];
+const externalDefines = {};
 for (let [key, rule] of Object.entries(pkg.externals ?? {})) {
+  const path =
+    typeof rule === "string" ? rule : rule[mode == "all" ? "prod" : mode];
+
+  externalDefines[key.replaceAll(/[\^\$-/]/g,(s)=>{
+    if(s=="-"|| s=="/"){
+      return "_"
+    }
+    return "";
+  }).toUpperCase()+"_PATH"] = `"${path}"` ;
+
   externalRules.push({
     filter: new RegExp(key),
-    path: typeof rule === "string" ? rule : rule[mode == "all" ? "prod" : mode],
+    path,
   });
 }
+
+console.log("GLOBAL Defines:",externalDefines)
 
 const externalPlugin = {
   name: "external",
   setup(build) {
     for (let rule of externalRules) {
       build.onResolve({ filter: rule.filter }, (args) => {
-        console.log(
-          "find rule",
-          rule,
-          args.path.replace(rule.filter, rule.path)
-        );
+        // console.log(
+        //   "find rule",
+        //   rule,
+        //   args.path.replace(rule.filter, rule.path)
+        // );
         return {
           path: args.path.replace(rule.filter, rule.path),
           external: true,
@@ -79,12 +97,16 @@ const externalPlugin = {
     }
   },
 };
+
 const options = {
   jsxFactory: "h",
   jsxFragment: "h.f",
   format: "esm",
   bundle: true,
+  define: externalDefines,
   sourcemap: mode == "dev",
+  drop: mode !== "dev" ? ["console"] : [], //发布后取消console输出
+  dropLabels: mode !== "dev" ? ["DEV", "TEST"] : [], //发布去除这些标签代码
   minify: true,
   charset: "utf8",
   entryPoints,
