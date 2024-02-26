@@ -1,6 +1,6 @@
 import { h, define, Component } from "wpa";
 import { css } from "wpa-ui";
-import { Security } from "/modules/common/index.js";
+import { Security } from "~/modules/common/index.js";
 
 import loginCSS from "./login.scss";
 

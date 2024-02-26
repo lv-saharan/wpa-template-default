@@ -1,4 +1,4 @@
-import { Security } from "/modules/common/index.js";
+import { Security } from "~/modules/common/index.js";
 import { h, render, setTheme } from "wpa";
 import { css } from "wpa-ui";
 

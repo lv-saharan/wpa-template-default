@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "/modules/*/index.js": ["./modules/*/src/index.js"]
-    }
-  }
-}
-// https://code.visualstudio.com/docs/languages/jsconfig

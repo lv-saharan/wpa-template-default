@@ -1,75 +1,69 @@
 import pkg from "./package.json" assert { type: "json" };
 import esbuild from "esbuild";
 import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 import { sassPlugin } from "esbuild-sass-plugin";
 import { dev } from "local-dev-server";
 
-// process.on("exit", () => {
-//   console.log("exit");
-// });
-
-const entryRoots = ["./modules"];
-const target = "./dist";
-//把这些资源目录一同拷贝
-const copyFolders = ["assets", "images"];
-
 const [mode] = process.argv.splice(2);
+
+const config = {
+  entryRoots: ["./modules"],
+  target: "./dist",
+  copyFolders: ["assets", "images", "workers"],
+  excludeFolders: ["node_modules", "dist"],
+  entryPoints: ["index.js", "index.ts", "index.jsx", "index.tsx"],
+};
+
 //esbuild 如果所有入口都是一个根目录会提升一级目录 ！！！
-const outRoot = entryRoots.length == 1 ? entryRoots.at(0) : "";
-//console.log(outRoot, "outRoot")
-const entryPoints = [];
-const findEntryPoints = (dirPath) => {
+const outRoot = config.entryRoots.length == 1 ? config.entryRoots.at(0) : "";
+
+function findEntryPoints(dirPath) {
   const dirStat = fs.statSync(dirPath);
   if (dirStat.isDirectory()) {
     //check src
     if (dirPath.endsWith("src")) {
-      const jsxIndex = path.join(dirPath, "index.jsx");
-      if (fs.existsSync(jsxIndex)) {
-        entryPoints.push(jsxIndex);
-        return;
-      }
-
-      const tsxIndex = path.join(dirPath, "index.tsx");
-      if (fs.existsSync(tsxIndex)) {
-        entryPoints.push(tsxIndex);
-        return;
-      }
-      const jsIndex = path.join(dirPath, "index.js");
-      if (fs.existsSync(jsIndex)) {
-        entryPoints.push(jsIndex);
-        return;
-      }
-      const tsIndex = path.join(dirPath, "index.ts");
-      if (fs.existsSync(tsIndex)) {
-        entryPoints.push(tsIndex);
-        return;
+      for (let entryPoint of config.entryPoints) {
+        const entryPointPath = path.join(dirPath, entryPoint);
+        if (fs.existsSync(entryPointPath)) {
+          return [entryPointPath];
+        }
       }
     } else {
+      const entryPoints = [];
       fs.readdirSync(dirPath).forEach((file) => {
         const filePath = path.join(dirPath, file);
-        findEntryPoints(filePath);
+        entryPoints.push(...findEntryPoints(filePath));
       });
+      return entryPoints;
     }
   }
-};
-entryRoots.forEach((dir) => {
-  findEntryPoints(dir);
+  return [];
+}
+const entryPoints = [];
+//find all entry points
+config.entryRoots.forEach((dir) => {
+  entryPoints.push(...findEntryPoints(dir));
 });
 
 console.log("EntryPoints", entryPoints);
+
+//define global externals
 const externalRules = [];
 const externalDefines = {};
 for (let [key, rule] of Object.entries(pkg.externals ?? {})) {
   const path =
     typeof rule === "string" ? rule : rule[mode == "all" ? "prod" : mode];
 
-  externalDefines[key.replaceAll(/[\^\$-/]/g,(s)=>{
-    if(s=="-"|| s=="/"){
-      return "_"
-    }
-    return "";
-  }).toUpperCase()+"_PATH"] = `"${path}"` ;
+  externalDefines[
+    key
+      .replace(/^\^/, "")
+      .replace(/^~\//, "")
+      .replace(/\$$/, "")
+      .replaceAll(/-/g, "_")
+      .replaceAll(/\//g, "_")
+      .toUpperCase() + "_PATH"
+  ] = `"${path}"`;
 
   externalRules.push({
     filter: new RegExp(key),
@@ -77,18 +71,18 @@ for (let [key, rule] of Object.entries(pkg.externals ?? {})) {
   });
 }
 
-console.log("GLOBAL Defines:",externalDefines)
+console.log("GLOBAL Defines:", externalDefines);
 
 const externalPlugin = {
   name: "external",
   setup(build) {
     for (let rule of externalRules) {
       build.onResolve({ filter: rule.filter }, (args) => {
-        // console.log(
-        //   "find rule",
-        //   rule,
-        //   args.path.replace(rule.filter, rule.path)
-        // );
+        console.log(
+          "find rule",
+          rule,
+          args.path.replace(rule.filter, rule.path)
+        );
         return {
           path: args.path.replace(rule.filter, rule.path),
           external: true,
@@ -114,7 +108,7 @@ const options = {
     entryPoints.length == 1
       ? `${path.join(entryPoints.at(0), "../../")}/[name]`
       : "[dir]/../[name]", //src的上层目录
-  outdir: path.join(target, entryPoints.length == 1 ? "" : outRoot),
+  outdir: path.join(config.target, entryPoints.length == 1 ? "" : outRoot),
   plugins: [
     externalPlugin,
     sassPlugin({
@@ -122,7 +116,7 @@ const options = {
     }),
   ],
 };
-
+//create http server
 if (mode == "dev") {
   let buildResult = null;
   const response = (filePath, res) => {
@@ -173,18 +167,39 @@ if (mode == "dev") {
   console.log("watching.........................................");
 } else if (mode == "prod" || mode == "all") {
   //拷贝所有资源目录
-  entryPoints.forEach((entryPoint) => {
-    copyFolders.forEach((copyFolder) => {
-      const resourceDir = path.join(entryPoint, `../../${copyFolder}`);
+  const copyTo = (from, subEntries, target, recursive = false) => {
+    subEntries.forEach((copyFolder) => {
+      const resourceDir = path.join(from, `./${copyFolder}`);
       if (fs.existsSync(resourceDir)) {
         const dirStat = fs.statSync(resourceDir);
-        if (dirStat.isDirectory()) {
-          fs.cpSync(resourceDir, path.join(target, resourceDir), {
-            recursive: true,
-          });
-        }
+        fs.cpSync(resourceDir, path.join(target, resourceDir), {
+          recursive: dirStat.isDirectory(),
+        });
       }
     });
+    if (recursive) {
+      fs.readdirSync(from)
+        .filter((item) => {
+          return (
+            fs.statSync(path.join(from, item)).isDirectory() &&
+            !subEntries.includes(item)
+          );
+        })
+        .forEach((sub) => {
+          copyTo(path.join(from, sub), [...subEntries], target, true);
+        });
+    }
+  };
+
+  copyTo(".", [...config.copyFolders, "index.html"], config.target);
+
+  config.entryRoots.forEach((entryRoot) => {
+    copyTo(
+      entryRoot,
+      [...config.copyFolders, "index.html"],
+      config.target,
+      true
+    );
   });
 
   await esbuild.build(options);
@@ -192,7 +207,6 @@ if (mode == "dev") {
   console.log(`build  ok!`);
 
   if (mode == "all") {
-    fs.cpSync("index.html", path.join(target, "index.html"));
     // fs.cpSync("es-lib", path.join(target, "es-lib"), { recursive: true });
 
     for (let [key, rule] of Object.entries(pkg.externals ?? {})) {

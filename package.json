@@ -13,11 +13,11 @@
       "dev": "/node_modules/wpa-ui/dist/wpa-ui.js",
       "prod": "/es-lib/wpa-ui/latest/wpa-ui.js"
     },
-    "^/es-lib": {
+    "^~/es-lib": {
       "dev": "/es-lib",
       "prod": "/es-lib"
     },
-    "^/modules": {
+    "^~/modules": {
       "dev": "/modules",
       "prod": "/modules"
     }
@@ -41,11 +41,12 @@
     "build:all": "node esbuild.js all"
   },
   "dependencies": {
-    "wpa": "^1.0.8",
-    "wpa-ui": "^1.0.6"
+    "wpa": "^1.0.12",
+    "wpa-ui": "^1.0.10"
   },
   "devDependencies": {
-    "esbuild": "^0.18.17",
+    "@types/node": "^20.11.20",
+    "esbuild": "^0.19.11",
     "esbuild-sass-plugin": "^2.10.0",
     "local-dev-server": "^1.0.17"
   }

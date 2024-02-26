@@ -1,0 +1,34 @@
+{
+  "references": [],
+  "exclude": ["node_modules"],
+  "include": ["modules"],
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "h.f",
+    "isolatedModules": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "lib": ["ES2015", "DOM"],
+    "paths": {
+      "omii": ["./es-lib/omii/latest/omii.js"],
+      "omii-ui": ["./es-lib/omii-ui/latest/omii-ui.js"],
+      "preview-utils": ["./node_modules/preview-utils/src/index.js"],
+      "dynamic-query": ["./node_modules/dynamic-query/src/index.js"],
+      "~/modules/common/index.js": ["./modules/common/src/index.js"],
+      "~/modules/shared/index.js": ["./modules/shared/src/index.js"],
+      "~/modules/cms/template/index.js": [
+        "./modules/cms/template/src/index.jsx"
+      ],
+      "~/modules/cms/components/index.js": [
+        "./modules/cms/components/src/index.js"
+      ],
+      "~/modules/system/components/index.js": [
+        "./modules/system/components/src/index.js"
+      ]
+    }
+  }
+}
+// https://code.visualstudio.com/docs/languages/jsconfig
