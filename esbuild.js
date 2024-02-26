@@ -8,12 +8,19 @@ import { dev } from "local-dev-server";
 const [mode] = process.argv.splice(2);
 
 const config = {
-  entryRoots: ["./modules"],
-  target: "./dist",
+  entryRoots: fs
+    .readdirSync(".")
+    .filter(
+      (file) =>
+        fs.statSync(file).isDirectory() &&
+        !["node_modules", "dist"].includes(file)
+    ),
+  target: "dist",
   copyFolders: ["assets", "images", "workers"],
-  excludeFolders: ["node_modules", "dist"],
   entryPoints: ["index.js", "index.ts", "index.jsx", "index.tsx"],
 };
+
+console.log(config);
 
 //esbuild 如果所有入口都是一个根目录会提升一级目录 ！！！
 const outRoot = config.entryRoots.length == 1 ? config.entryRoots.at(0) : "";
